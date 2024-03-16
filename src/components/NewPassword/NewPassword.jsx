@@ -2,22 +2,19 @@ import React, { useState } from 'react';
 import { VStack, ButtonGroup, Button, FormControl, FormLabel, FormErrorMessage, Input, Heading, Link } from "@chakra-ui/react";
 import { Form, Formik} from 'formik';
 import * as Yup from 'yup';
-import TextField from './TextField';
+import TextField from '../Login/TextField';
 import { useNavigate } from "react-router-dom";
 import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 import {
-  InputGroup,
-  useColorMode
+  InputGroup
 } from '@chakra-ui/core';
 
-export default function LoginPage() {
-  const navigate = useNavigate();
+export default function NewPassword() {
+    const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const {colorMode} = useColorMode();
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword); 
   };
-
   return (
     <Formik 
       initialValues={{
@@ -25,15 +22,10 @@ export default function LoginPage() {
         password: '',
       }}
       validationSchema={Yup.object({
-        username: Yup.string()
-          .required("Username required")
-          .min(4, "Username too short!")
-          .max(50, 'Username too long!'),
         password: Yup.string()
           .required("Password required")
           .min(4, "Password too short!")
           .max(50, 'Password too long!'),
-
       })}
       onSubmit={(values, actions) => {
         alert(JSON.stringify(values, null, 2));
@@ -47,16 +39,15 @@ export default function LoginPage() {
           onSubmit={formik.handleSubmit}
         >
           <Heading>
-            Log In
+            Create a new password
           </Heading>
-          <TextField name="username" label="Username" placeholder="Enter username" autoComplete="off"/>
           <FormControl isInvalid = {formik.errors.password && formik.touched.password}>
             <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
               name="password"
               type={showPassword ? "text" : "password"} // Check if type updates correctly
-              placeholder="Enter password"
+              placeholder="Enter a new password"
               autoComplete="off"
               />
               <Button size="sm" onClick={handleTogglePasswordVisibility}>
@@ -64,16 +55,29 @@ export default function LoginPage() {
               </Button> 
             </InputGroup>
             <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-            <Link onClick={() => navigate('/forgot-password')}>Forgot your password?</Link>
             
           </FormControl>
+          <FormControl isInvalid = {formik.errors.password && formik.touched.password}>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
+              name="password"
+              type={showPassword ? "text" : "password"} // Check if type updates correctly
+              placeholder="Enter a new password again"
+              autoComplete="off"
+              />
+              <Button size="sm" onClick={handleTogglePasswordVisibility}>
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button> 
+            </InputGroup>
+
+            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+          </FormControl>
           <ButtonGroup className='pt-6'>
-            <Button bg="blue.500" type='submit' color='white'>Sign In</Button>
-            <Button onClick={() => navigate('/register')}>Sign Up</Button>
+            <Button bg="blue.500" type='submit' color='white' onClick={() => navigate('/register')}>Sign In</Button>
           </ButtonGroup>
         </VStack>
       )}
     </Formik>
-  );
+  )
 }
-

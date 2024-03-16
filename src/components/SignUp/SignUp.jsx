@@ -26,6 +26,7 @@ export default function SignUp() {
     initialValues = {{
         username: '',
         password: '',
+        
       }}
       validationSchema = {Yup.object({
         username: Yup.string()
@@ -36,6 +37,8 @@ export default function SignUp() {
           .required("Password required")
           .min(4, "Password too short!")
           .max(50, 'Password too long!'),
+        phoneNumber: Yup.string()
+          .required('Phone number required')
     })}
     onSubmit = {(values, actions) => {
       alert(JSON.stringify(values, null, 2));
@@ -68,19 +71,7 @@ export default function SignUp() {
 
             <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
         </FormControl>
-        <FormControl>
-            <FormLabel color='primary'>Phone number</FormLabel>
-            <InputGroup>
-              <Input
-              type='tel'
-              placeholder="Phone number"
-              autoComplete="off"
-              /> 
-            </InputGroup>
-            
-
-            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-        </FormControl>
+        <TextField name = "phoneNumber" label="Phone number" placeholder = "Phone number" autoComplete = "off"/>
 
         <ButtonGroup className='pt-6'>
           <Button bg="blue.500" type='submit'>Sign Up</Button>
