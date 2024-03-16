@@ -12,6 +12,7 @@ import {
   InputRightElement,
   Icon
 } from '@chakra-ui/core';
+import PasswordField from './PasswordField';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -41,8 +42,29 @@ export default function SignUp() {
           .required('Phone number required')
     })}
     onSubmit = {(values, actions) => {
-      alert(JSON.stringify(values, null, 2));
-      actions.resetForm();
+      const vals = {...values}
+        actions.resetForm();
+        fetch("http://localhost:1488/auth/registration", {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(vals)
+        }).catch(err => {
+          return
+        }).then(res => {
+          if (!res || !res.ok || res.status >= 400) {
+            return;
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(!data) {
+            return;
+          }
+          console.log(data)
+        })
     }}
     >
       {(formik) => (
@@ -54,23 +76,7 @@ export default function SignUp() {
           Welcome
         </Heading>
         <TextField name = "username" label="Username" placeholder = "Create username" autoComplete = "off"/>
-        <FormControl>
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
-              <Input
-              name="password"
-              type={showPassword ? "text" : "password"} // Check if type updates correctly
-              placeholder="Create password"
-              autoComplete="off"
-              />
-              <Button size="sm" onClick={handleTogglePasswordVisibility}>
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button> 
-            </InputGroup>
-            
-
-            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-        </FormControl>
+        <PasswordField name = "password" label="Password" placeholder="Enter password" autoComplete="off"/>
         <TextField name = "phoneNumber" label="Phone number" placeholder = "Phone number" autoComplete = "off"/>
 
         <ButtonGroup className='pt-6'>
