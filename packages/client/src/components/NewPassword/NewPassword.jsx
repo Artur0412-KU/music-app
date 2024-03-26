@@ -8,6 +8,7 @@ import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 import {
   InputGroup
 } from '@chakra-ui/core';
+import PasswordField from '../SignUp/inputs/PasswordField';
 
 export default function NewPassword() {
     const navigate = useNavigate();
@@ -18,18 +19,18 @@ export default function NewPassword() {
   return (
     <Formik 
       initialValues={{
-        username: '',
-        password: '',
+        newPassword: '',
+        confirmPassword: '',
       }}
       validationSchema = {Yup.object({
-        username: Yup.string()
-          .required("Username required")
-          .min(4, "Username too short!")
-          .max(50, 'Username too long!'),
-        password: Yup.string()
+        newPassword: Yup.string()
           .required("Password required")
           .min(4, "Password too short!")
-          .max(50, 'Password too long!')
+          .max(50, 'Password too long!'),
+        confirmPassword: Yup.string()
+        .required("Password required")
+        .min(4, "Password too short!")
+        .max(50, 'Password too long!'),
     })}
       onSubmit={(values, actions) => {
         const vals = {...values}
@@ -66,38 +67,8 @@ export default function NewPassword() {
           <Heading>
             Create a new password
           </Heading>
-          <FormControl isInvalid = {formik.errors.password && formik.touched.password}>
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
-              <Input
-              name="password"
-              type={showPassword ? "text" : "password"} // Check if type updates correctly
-              placeholder="Enter a new password"
-              autoComplete="off"
-              />
-              <Button size="sm" onClick={handleTogglePasswordVisibility}>
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button> 
-            </InputGroup>
-            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-            
-          </FormControl>
-          <FormControl isInvalid = {formik.errors.password && formik.touched.password}>
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
-              <Input
-              name="password"
-              type={showPassword ? "text" : "password"} // Check if type updates correctly
-              placeholder="Enter a new password again"
-              autoComplete="off"
-              />
-              <Button size="sm" onClick={handleTogglePasswordVisibility}>
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button> 
-            </InputGroup>
-
-            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-          </FormControl>
+          <PasswordField name = "newPassword" label="Create a new password" placeholder="Password" autoComplete="off"/> 
+        <PasswordField name = "confirmPassword" label="Enter a password again" placeholder="Password" autoComplete="off"/> 
           <ButtonGroup className='pt-6'>
             <Button bg="blue.500" type='submit' color='white' onClick={() => navigate('/register')}>Sign In</Button>
           </ButtonGroup>

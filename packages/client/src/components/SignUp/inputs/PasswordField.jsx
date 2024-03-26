@@ -35,7 +35,6 @@ export default function PasswordField({ label, ...props }) {
                 </Button>
             </InputGroup>
             <FormErrorMessage>{meta.error}</FormErrorMessage>
-            <Link onClick={() => navigate('/forgot-password')}>Forgot your password?</Link>
         </FormControl>
     );
 }

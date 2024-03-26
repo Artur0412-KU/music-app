@@ -14,7 +14,6 @@ import * as Yup from 'yup';
 export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const {colorMode} = useColorMode();
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword); 
   };

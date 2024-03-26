@@ -1,48 +1,50 @@
-import React, { useState } from 'react'
-import { VStack, 
-  ButtonGroup, Button, FormControl, FormLabel, 
-  FormErrorMessage, Input, Heading,  } from "@chakra-ui/react"
-import { Form, Formik, useFormik } from 'formik'
+import React, { useState } from 'react';
+import { VStack, ButtonGroup, Button, FormControl, FormLabel, FormErrorMessage, Heading } from "@chakra-ui/react";
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextField from '../Login/TextField';
 import { useNavigate } from "react-router-dom";
-import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
-import {
-  InputGroup,
-  InputRightElement,
-  Icon
-} from '@chakra-ui/core';
-import PasswordField from './PasswordField';
+import PasswordField from './inputs/PasswordField';
+import PhoneNumberField from './inputs/PhoneNumberField';
+import AgeField from './inputs/AgeField';
+import SelectGenderInput from './inputs/SelectGenderInput';
+import SelectCountryInput from './inputs/SelectCountryInput';
 
 export default function SignUp() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword); 
+    setShowPassword(!showPassword);
   };
 
   return (
-    <Formik 
-    initialValues = {{
+    <Formik
+      initialValues={{
         username: '',
         password: '',
-        
+        age: '', // Додайте dateOfBirth у початкові значення
       }}
-      validationSchema = {Yup.object({
+      validationSchema={Yup.object({
         username: Yup.string()
           .required("Username required")
           .min(4, "Username too short!")
           .max(50, 'Username too long!'),
+        surname: Yup.string()
+          .required("Surname required")
+          .min(4, "Surname too short!")
+          .max(50, 'Surname too long!'),
         password: Yup.string()
           .required("Password required")
           .min(4, "Password too short!")
           .max(50, 'Password too long!'),
         phoneNumber: Yup.string()
-          .required('Phone number required')
-    })}
-    onSubmit = {(values, actions) => {
-      const vals = {...values}
+          .required('Phone number required'),
+        age: Yup.string()
+          .required('Age is required') // Додайте валідатор для dateOfBirth
+      })}
+      onSubmit={(values, actions) => {
+        const vals = {...values};
         actions.resetForm();
         fetch("http://localhost:1488/auth/registration", {
           method: 'POST',
@@ -52,7 +54,7 @@ export default function SignUp() {
           },
           body: JSON.stringify(vals)
         }).catch(err => {
-          return
+          return;
         }).then(res => {
           if (!res || !res.ok || res.status >= 400) {
             return;
@@ -63,29 +65,31 @@ export default function SignUp() {
           if(!data) {
             return;
           }
-          console.log(data)
-        })
-    }}
+          console.log(data);
+        });
+      }}
     >
       {(formik) => (
-      <VStack 
-        as={Form}
-        className='w-90 md:w-500 m-auto justify-center h-screen space-y-4'
-        onSubmit={formik.handleSubmit}>
-        <Heading>
-          Welcome
-        </Heading>
-        <TextField name = "username" label="Username" placeholder = "Create username" autoComplete = "off"/>
-        <PasswordField name = "password" label="Password" placeholder="Enter password" autoComplete="off"/>
-        <TextField name = "phoneNumber" label="Phone number" placeholder = "Phone number" autoComplete = "off"/>
+        <VStack
+          as={Form}
+          className='w-90 md:w-500 m-auto justify-center h-screen space-y-4'
+          onSubmit={formik.handleSubmit}
+        >
+          <Heading>
+            Welcome
+          </Heading>
+          <TextField name="username" label="Username" placeholder="Create username" autoComplete="off" />
+          <TextField name="surname" label="Surname" placeholder="Create surname" autoComplete="off" />
+          <PhoneNumberField name="phoneNumber" label="Phone number" />
+          <AgeField label="Age" name="age" />
 
-        <ButtonGroup className='pt-6'>
-          <Button bg="blue.500" type='submit'>Sign Up</Button>
-          <Button onClick={() => navigate('/')}>Sign In</Button>
-        </ButtonGroup>
-      </VStack>
+          <ButtonGroup className='pt-6'>
+            <Button bg="blue.500" type='submit' color='white' onClick={() => navigate('/register/2')}>Continue</Button>
+            <Button onClick={() => navigate('/')}>Sign In</Button>
+          </ButtonGroup>
+        </VStack>
       )}
-     
     </Formik>
-  )
+  );
 }
+

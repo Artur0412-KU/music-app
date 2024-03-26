@@ -4,13 +4,7 @@ import { Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import TextField from './TextField';
 import { useNavigate } from "react-router-dom";
-import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
-import {
-  InputGroup,
-  InputRightElement,
-  Icon,
-  useColorMode
-} from '@chakra-ui/core';
+
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
@@ -61,7 +55,7 @@ export default function ForgotPassword() {
         <TextField name = "email" label="Email" placeholder = "Enter email" autoComplete = "off"/>
 
         <ButtonGroup className='pt-6'>
-          <Button bg="blue.500" type='submit' onClick={() => navigate('/new-password')}>Reset</Button>
+          <Button bg="blue.500" type='submit' onClick={() => navigate('/new-password')} color='white'>Reset</Button>
         </ButtonGroup>
       </VStack>
       )}

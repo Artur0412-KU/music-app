@@ -12,7 +12,11 @@ const formSchema = Yup.object({
     phoneNumber: Yup.string()
         .required('Phone number required'),
     email: Yup.string()
-        .required('Email required')
+        .required('Email required'),
+    phoneNumber: Yup.string()
+        .required('Phone number required'),
+    age: Yup.string()
+        .required('Age is required')
 })
 
 const validateForm = (req, res, next) => {
