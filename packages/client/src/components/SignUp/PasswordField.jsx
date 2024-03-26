@@ -9,10 +9,12 @@ import {
     useColorMode
   } from '@chakra-ui/core';
 import { Field, useField } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function PasswordField({ label, ...props }) {
     const [field, meta] = useField(props);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleTogglePasswordVisibility = () => {
         setShowPassword(!showPassword);

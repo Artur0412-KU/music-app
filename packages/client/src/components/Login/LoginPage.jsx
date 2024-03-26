@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { VStack, ButtonGroup, Button, Heading } from "@chakra-ui/react";
 import { Form, Formik} from 'formik';
-import * as Yup from 'yup';
 import TextField from './TextField';
 import { useNavigate } from "react-router-dom";
 import {
   useColorMode
 } from '@chakra-ui/core';
 import PasswordField from './PasswordField';
-import { formSchema } from '@music-app/common';
+import * as Yup from 'yup';
+
 
 
 export default function LoginPage() {
@@ -25,7 +25,16 @@ export default function LoginPage() {
         username: '',
         password: '',
       }}
-      validationSchema={formSchema}
+      validationSchema = {Yup.object({
+        username: Yup.string()
+          .required("Username required")
+          .min(4, "Username too short!")
+          .max(50, 'Username too long!'),
+        password: Yup.string()
+          .required("Password required")
+          .min(4, "Password too short!")
+          .max(50, 'Password too long!')
+    })}
       onSubmit={(values, actions) => {
         const vals = {...values}
         actions.resetForm();

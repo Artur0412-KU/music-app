@@ -7,7 +7,15 @@ router.post("/login", (req, res, next) => {
 });
 
 
-router.post("/registration", (req, res, next) => {
+router.post("/register", (req, res, next) => {
+    validateForm(req, res, next);
+});
+
+router.post("/forgot-password", (req, res, next) => {
+    validateForm(req, res, next);
+});
+
+router.post("/new-password", (req, res, next) => {
     validateForm(req, res, next);
 });
 

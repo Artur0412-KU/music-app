@@ -17,17 +17,38 @@ export default function ForgotPassword() {
 
   return (
     <Formik 
-    initialValues = {{
+      initialValues = {{
         email: '',
       }}
       validationSchema = {Yup.object({
         email: Yup.string()
           .required("Email required")
-    })}
-    onSubmit = {(values, actions) => {
-      alert(JSON.stringify(values, null, 2));
-      actions.resetForm();
-    }}
+      })}
+      onSubmit={(values, actions) => {
+        const vals = {...values}
+        actions.resetForm();
+        fetch("http://localhost:1488/auth/forgot-password", {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(vals)
+        }).catch(err => {
+          return
+        }).then(res => {
+          if (!res || !res.ok || res.status >= 400) {
+            return;
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(!data) {
+            return;
+          }
+          console.log(data)
+        })
+      }}
     >
       {(formik) => (
       <VStack 

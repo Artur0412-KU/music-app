@@ -21,15 +21,40 @@ export default function NewPassword() {
         username: '',
         password: '',
       }}
-      validationSchema={Yup.object({
+      validationSchema = {Yup.object({
+        username: Yup.string()
+          .required("Username required")
+          .min(4, "Username too short!")
+          .max(50, 'Username too long!'),
         password: Yup.string()
           .required("Password required")
           .min(4, "Password too short!")
-          .max(50, 'Password too long!'),
-      })}
+          .max(50, 'Password too long!')
+    })}
       onSubmit={(values, actions) => {
-        alert(JSON.stringify(values, null, 2));
+        const vals = {...values}
         actions.resetForm();
+        fetch("http://localhost:1488/auth/new-password", {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(vals)
+        }).catch(err => {
+          return
+        }).then(res => {
+          if (!res || !res.ok || res.status >= 400) {
+            return;
+          }
+          return res.json();
+        })
+        .then(data => {
+          if(!data) {
+            return;
+          }
+          console.log(data)
+        })
       }}
     >
       {(formik) => (
