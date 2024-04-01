@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express-session": "^1.18.0",
+    "pg": "^8.11.4",
+    "psql": "^0.0.1",
     "yarn": "^1.22.22"
   }
 }
