@@ -4,9 +4,9 @@ require('dotenv').config();
 const pool = new Pool({
     user: process.env.DATABSE_USER,
     password: process.env.DATABSE_PASSWORD,
-    host: process.env.DATABSE_HOST,
-    port: process.env.DATABSE_PORT,
-    database: process.env.DATABSE_NAME,
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    database: process.env.DATABASE_NAME,
 });
 
 module.exports = pool;
