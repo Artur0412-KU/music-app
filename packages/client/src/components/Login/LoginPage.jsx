@@ -17,6 +17,7 @@ export default function LoginPage() {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword); 
   };
+  const [username, setUsername] = useState('');
 
   return (
     <Formik 
@@ -35,6 +36,9 @@ export default function LoginPage() {
           .max(50, 'Password too long!')
     })}
       onSubmit={(values, actions) => {
+        const { username, password } = values; // Деструктуризація значень з форми
+        setUsername(username); // Збереження значення username в стані
+        actions.resetForm(); 
         const vals = {...values}
         actions.resetForm();
         fetch("http://localhost:1488/auth/login", {
@@ -72,7 +76,7 @@ export default function LoginPage() {
           <TextField name="username" label="Username" placeholder="Enter username" autoComplete="off"/>
           <PasswordField name = "password" label="Password" placeholder="Enter password" autoComplete="off"/>
           <ButtonGroup className='pt-6'>
-            <Button bg="blue.500" type='submit' color='white'>Sign In</Button>
+            <Button bg="blue.500" type='submit' color='white' onClick={() => navigate('/main/:username', { username: username })}>Sign In</Button>
             <Button onClick={() => navigate('/register')}>Sign Up</Button>
           </ButtonGroup>
         </VStack>
