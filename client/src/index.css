@@ -20,3 +20,21 @@
 .MuiButtonBase-root {
   font-family: "Poppins", sans-serif;
 }
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.songs-container {
+  flex-grow: 1;
+  margin: 0.5rem;
+  overflow-y: auto;
+}
+
+.track-container {
+  display: flex;
+  margin: 0.5rem;
+  align-items: center;
+}
